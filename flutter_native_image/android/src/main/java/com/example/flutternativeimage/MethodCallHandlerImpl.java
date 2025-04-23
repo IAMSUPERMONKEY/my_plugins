@@ -1,5 +1,6 @@
 package com.example.flutternativeimage;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,6 +27,7 @@ public class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
         this.context = context;
     }
 
+    @SuppressLint("WrongThread")
     @Override
     public void onMethodCall(MethodCall call, MethodChannel.Result result) {
         if(call.method.equals("compressImage")) {
@@ -175,6 +177,7 @@ public class MethodCallHandlerImpl implements MethodChannel.MethodCallHandler {
         }
     }
 
+    @SuppressLint("LongLogTag")
     private void copyExif(String filePathOri, String filePathDest) {
         try {
             ExifInterface oldExif = new ExifInterface(filePathOri);
