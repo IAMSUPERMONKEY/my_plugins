@@ -1,0 +1,17 @@
+.idea
+example/android/.gradle
+example/build/app/generated
+example/build
+.packages
+example/.flutter-plugins
+example/.packages
+example/android/android.iml
+example/android/gradlew
+example/android/local.properties
+example/ios/Podfile
+.dart_tool
+.flutter-plugins-dependencies
+Flutter.podspec
+example/ios/Flutter/flutter_export_environment.sh
+example/pubspec.lock
+android/gradle/wrapper/gradle-wrapper.properties
