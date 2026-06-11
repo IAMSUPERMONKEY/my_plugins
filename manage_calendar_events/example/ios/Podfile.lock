@@ -14,9 +14,9 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/manage_calendar_events/ios"
 
 SPEC CHECKSUMS:
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   manage_calendar_events: e99a96e4e25ab67f2a85342bcfb58a17ee3ec1f8
 
-PODFILE CHECKSUM: 08bf622fd73e0960bbbd1c7db8fa9c0197ba04bf
+PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.16.2

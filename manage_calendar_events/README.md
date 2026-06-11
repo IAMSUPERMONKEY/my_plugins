@@ -26,3 +26,50 @@ iOS support is used a swift code and it requires a following permissions to add 
 <key>NSCalendarsUsageDescription</key>
 <string>INSERT_REASON_HERE</string>
 ```
+
+## For HarmonyOS
+
+HarmonyOS support is exposed through the `ohos/` plugin implementation and uses the same `manage_calendar_events` method channel.
+
+HarmonyOS support is implemented with `@kit.CalendarKit` / `@ohos.calendarManager` and currently covers:
+
+- calendar permission check and request
+- calendar listing, default calendar lookup, account-based calendar lookup, creation, and deletion
+- event listing, date-range query, create, update, and delete
+- reminder and attendee updates through event mutation APIs
+
+The HarmonyOS calendar layer is aligned with the official CalendarManager calendar/event APIs, including:
+
+- `CalendarManager.getAllCalendars()`
+- `CalendarManager.getCalendar()`
+- `CalendarManager.createCalendar()`
+- `CalendarManager.deleteCalendar()`
+- `Calendar.getEvents()`, `addEvent()`, `updateEvent()`, `deleteEvent()`
+
+Add these permissions to the host app when needed:
+
+```json5
+"requestPermissions": [
+  {
+    "name": "ohos.permission.READ_CALENDAR",
+    "reason": "$string:app_name",
+    "usedScene": {
+      "when": "always"
+    }
+  },
+  {
+    "name": "ohos.permission.WRITE_CALENDAR",
+    "reason": "$string:app_name",
+    "usedScene": {
+      "when": "always"
+    }
+  }
+]
+```
+
+Use `flutter_tpc` instead of `flutter` for HarmonyOS-related commands, for example:
+
+```bash
+flutter_tpc pub get
+flutter_tpc test
+```

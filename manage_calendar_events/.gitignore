@@ -15,3 +15,8 @@ Flutter.podspec
 example/ios/Flutter/flutter_export_environment.sh
 example/pubspec.lock
 android/gradle/wrapper/gradle-wrapper.properties
+
+build/
+.DS_Store
+
+ohos/har/flutter.har

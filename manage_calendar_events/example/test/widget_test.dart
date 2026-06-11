@@ -1,26 +1,105 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/screens/calendar_list.dart';
+import 'package:manage_calendar_events/manage_calendar_events.dart';
+
+import '../lib/main.dart';
 
 void main() {
-  testWidgets('Verify Platform version', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(CalendarList());
+  TestWidgetsFlutterBinding.ensureInitialized();
+  const MethodChannel channel = MethodChannel('manage_calendar_events');
+  final List<MethodCall> log = <MethodCall>[];
+  final messenger =
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
 
-    // Verify that platform version is retrieved.
-    expect(
-      find.byWidgetPredicate(
-        (Widget widget) =>
-            widget is Text && widget.data!.startsWith('Calendars'),
-      ),
-      findsOneWidget,
-    );
+  tearDown(() {
+    messenger.setMockMethodCallHandler(channel, null);
+    log.clear();
+  });
+
+  testWidgets('Add Calendars requests permission before creating',
+      (WidgetTester tester) async {
+    messenger.setMockMethodCallHandler(channel, (MethodCall methodCall) async {
+      log.add(methodCall);
+      switch (methodCall.method) {
+        case 'hasPermissions':
+          return false;
+        case 'requestPermissions':
+          return true;
+        case 'getCalendar':
+          return null;
+        case 'createCalendar':
+          return '42';
+        default:
+          return null;
+      }
+    });
+
+    await tester.pumpWidget(MyApp());
+    await tester.tap(find.text('Add Calendars'));
+    await tester.pumpAndSettle();
+
+    expect(log.map((call) => call.method), <String>[
+      'hasPermissions',
+      'requestPermissions',
+      'getCalendar',
+      'createCalendar',
+    ]);
+    expect(log.last.arguments, <String, Object?>{
+      'id': 'supermonkey',
+      'name': 'supermonkey',
+      'accountName': null,
+      'ownerName': null,
+      'isReadOnly': null,
+      'type': null,
+      'displayName': 'supermonkey',
+    });
+  });
+
+  testWidgets('Add Calendars skips create when calendar already exists',
+      (WidgetTester tester) async {
+    messenger.setMockMethodCallHandler(channel, (MethodCall methodCall) async {
+      log.add(methodCall);
+      switch (methodCall.method) {
+        case 'hasPermissions':
+          return true;
+        case 'getCalendar':
+          return '{"id":"1","name":"supermonkey","accountName":"supermonkey","ownerName":"supermonkey","isReadOnly":false,"type":"local","displayName":"supermonkey"}';
+        default:
+          return null;
+      }
+    });
+
+    await tester.pumpWidget(MyApp());
+    await tester.tap(find.text('Add Calendars'));
+    await tester.pumpAndSettle();
+
+    expect(log.map((call) => call.method), <String>[
+      'hasPermissions',
+      'getCalendar',
+    ]);
+  });
+
+  testWidgets('Add Calendars stops when permission is denied',
+      (WidgetTester tester) async {
+    messenger.setMockMethodCallHandler(channel, (MethodCall methodCall) async {
+      log.add(methodCall);
+      switch (methodCall.method) {
+        case 'hasPermissions':
+          return false;
+        case 'requestPermissions':
+          return false;
+        default:
+          return null;
+      }
+    });
+
+    await tester.pumpWidget(MyApp());
+    await tester.tap(find.text('Add Calendars'));
+    await tester.pumpAndSettle();
+
+    expect(log.map((call) => call.method), <String>[
+      'hasPermissions',
+      'requestPermissions',
+    ]);
   });
 }

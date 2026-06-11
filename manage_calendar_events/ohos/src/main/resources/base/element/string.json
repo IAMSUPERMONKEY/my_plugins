@@ -1,0 +1,12 @@
+{
+  "string": [
+    {
+      "name": "calendar_read_permission_reason",
+      "value": "Read calendar events"
+    },
+    {
+      "name": "calendar_write_permission_reason",
+      "value": "Manage calendar events"
+    }
+  ]
+}

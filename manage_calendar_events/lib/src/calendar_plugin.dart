@@ -45,13 +45,64 @@ class CalendarPlugin {
     return calendars;
   }
 
-  /// Returns the available calendars from the device
+  /// Returns the default calendar from the device, if the platform supports it.
+  Future<Calendar?> getDefaultCalendar() async {
+    try {
+      final String? calendarJson = await _channel.invokeMethod('getDefaultCalendar');
+      if (calendarJson == null || calendarJson.isEmpty) {
+        return null;
+      }
+      return Calendar.fromJson(json.decode(calendarJson) as Map<String, dynamic>);
+    } catch (e) {
+      print(e);
+    }
+    return null;
+  }
+
+  /// Returns a calendar by id or account fields, if the platform supports it.
+  Future<Calendar?> getCalendar({
+    String? calendarId,
+    String? name,
+    String? displayName,
+    String? type,
+  }) async {
+    try {
+      final map = <String, Object?>{
+        'calendarId': calendarId,
+        'name': name,
+        'displayName': displayName,
+        'type': type,
+      }..removeWhere((key, value) => value == null);
+      final String? calendarJson = await _channel.invokeMethod('getCalendar', map);
+      if (calendarJson == null || calendarJson.isEmpty) {
+        return null;
+      }
+      return Calendar.fromJson(json.decode(calendarJson) as Map<String, dynamic>);
+    } catch (e) {
+      print(e);
+    }
+    return null;
+  }
+
+  /// Creates a calendar on the device.
   Future<void> createCalendar(Calendar calendar) async {
     try {
       await _channel.invokeMethod('createCalendar', calendar.toJson());
     } catch (e) {
       print(e);
     }
+  }
+
+  /// Deletes a calendar from the device, if the platform supports it.
+  Future<bool> deleteCalendar({required String calendarId}) async {
+    try {
+      return await _channel.invokeMethod('deleteCalendar', <String, Object?>{
+        'calendarId': calendarId,
+      });
+    } catch (e) {
+      print(e);
+    }
+    return false;
   }
 
   /// Returns all the available events in the selected calendar

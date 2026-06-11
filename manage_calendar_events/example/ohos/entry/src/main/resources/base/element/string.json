@@ -1,0 +1,24 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "manage_calendar_events_example"
+    },
+    {
+      "name": "entry_calendar_read_permission_reason",
+      "value": "Read calendar events"
+    },
+    {
+      "name": "entry_calendar_write_permission_reason",
+      "value": "Manage calendar events"
+    }
+  ]
+}

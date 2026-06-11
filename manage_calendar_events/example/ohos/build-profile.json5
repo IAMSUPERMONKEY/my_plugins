@@ -1,0 +1,59 @@
+
+{
+  "app": {
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "/Users/wenbo/.ohos/config/default_ohos_0upbq5oXXXgp6KfTE93fPT7iJCoxLs4-0hrIy9uoYSw=.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001B601320C2578A432C0F020B9B2909459F6115A46A4753B54E48BDDCE4423B86C06212E1738519DA",
+          "profile": "/Users/wenbo/.ohos/config/default_ohos_0upbq5oXXXgp6KfTE93fPT7iJCoxLs4-0hrIy9uoYSw=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "/Users/wenbo/.ohos/config/default_ohos_0upbq5oXXXgp6KfTE93fPT7iJCoxLs4-0hrIy9uoYSw=.p12",
+          "storePassword": "0000001B1E365DBEFA5532633D83D9BFC928A01B5E9FE641036096F5C58C1706E2F4E9D121321B3D1187EB"
+        }
+      }
+    ],
+    "products": [
+      {
+        "name": "default",
+        "signingConfig": "default",
+        "compatibleSdkVersion": "5.1.0(18)",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "strictMode": {
+            "useNormalizedOHMUrl": true
+          }
+        },
+        "targetSdkVersion": "5.1.0(18)"
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug"
+      },
+      {
+        "name": "profile"
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
+}
